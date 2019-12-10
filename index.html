@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Son Yazılan Yazılar</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<h1>Sitelerin En Son Blog Yazılma Zamanları</h1>
+<div id="tablex"></div>
+
+
+
+
+
+<script type = "text/javascript" language="javascript"> 
+
+$(document).ready(function(){
+
+$siteler = [
+'www.isiltan.com.tr',
+'www.numatic-tr.com',
+'www.rubbermaid-tr.com',
+'www.caddie-tr.com',
+'www.caddie-tr.com/rocam',
+'www.fiorentini-tr.com',
+'www.vitoyagtemizlememakinasi.com',
+'www.vitoyagfiltresi.com',
+'www.sanjamar-tr.com',
+'www.tecnovap-tr.com',
+'www.numatic-ibc.com'
+];
+$div = '<table class="table"><tr style="background:#efefef"><th>Site</th><th>Son Yazı Tarihi</th></tr></table>';
+$('#tablex').append($div);
+$.each($siteler, function( index, value ) {
+  $('.table').append('<tr><th><a href="http://' + value + '" target="_blank">' + value + '</a></th><th><div id="site' + index + '"></div></th></tr>');
+});
+
+
+	$('#table div').html('<img style="height:50px" src="https://loading.io/mod/spinner/color-bar/index.svg" />');
+	
+	$.each($siteler, function( index, value ) {
+	
+		rssgetir("http://" + value + "/feed","site"+index);
+	});
+	
+
+function rssgetir(url,pid)
+{
+	rss_url = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(url)+ "? "+ Math.random();
+
+                $.getJSON(rss_url, function(emp) { 
+                  
+				   $("#"+pid).html(emp.items[0].pubDate);
+				   
+                }).fail(function() { 
+					$("#"+pid).html('<img style="height:20px" src="https://connect.ct.gov/icons/icon_error.gif" />');
+				}); 
+
+      
+	
+}});
+</script>
+
+</body>
+</html>
